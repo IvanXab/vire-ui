@@ -1,19 +1,19 @@
 <template>
   <div class="center">
-    <Button :size="'small'" :radius="'medium'">
-      Button
-    </Button>
+    <ButtonStand />
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from "./components/button/Button.vue"
+import ButtonStand from "./stands/ButtonStand.vue";
 </script>
 
 <style lang="sass" scoped>
 .center
   display: flex
-  justify-content: center
+  flex-direction: column
   align-items: center
+  justify-content: center
+  gap: 50px
   height: 100vh
 </style>
