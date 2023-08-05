@@ -1,6 +1,8 @@
 <template>
   <button
       class="button"
+      v-bind="$attrs"
+      v-on="$attrs"
       :class="[radiusStyle, disabledStyle, sizeStyle, colorThemeStyle]"
       :disabled="disabled"
   >
@@ -9,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from "vue"
+import { computed, PropType } from "vue"
 import {TColorTheme, TRadius, TSize} from "./Button.types";
 
 const props = defineProps({
@@ -35,10 +37,10 @@ const props = defineProps({
   }
 })
 
-const colorThemeStyle = ref<string>(`color-theme-${props.colorTheme}`)
-const disabledStyle = ref<string | null>(props.disabled ? 'disabled' : null)
-const radiusStyle = ref<string>(`radius-${props.radius}`)
-const sizeStyle = ref<string>(`size-${props.size}`)
+const colorThemeStyle = computed<string>(() => `color-theme-${props.colorTheme}`)
+const disabledStyle = computed<string | null>(() => props.disabled ? 'disabled' : null)
+const radiusStyle = computed<string>(() => `radius-${props.radius}`)
+const sizeStyle = computed<string>(() => `size-${props.size}`)
 </script>
 
 <style scoped lang="sass">
