@@ -10,7 +10,7 @@
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, PropType } from "vue"
 import {TColorTheme, TRadius, TSize} from "./Button.types";
 
@@ -43,7 +43,7 @@ const radiusStyle = computed<string>(() => `radius-${props.radius}`)
 const sizeStyle = computed<string>(() => `size-${props.size}`)
 </script>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 @import "Button.vars"
 
 .button
