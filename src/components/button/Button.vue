@@ -12,11 +12,12 @@
 
 <script lang="ts" setup>
 import { computed, PropType } from "vue"
-import {TColorTheme, TRadius, TSize} from "./Button.types";
+import { TColorTheme, TRadius } from "./Button.types"
+import { Size } from "@/shared/types/Size"
 
 const props = defineProps({
   size: {
-    type: String as PropType<TSize>,
+    type: String as PropType<Size>,
     required: false,
     default: "small"
   },
@@ -78,22 +79,22 @@ const sizeStyle = computed<string>(() => `size-${props.size}`)
 
 .color-theme
   &-default
-    background: $default-color
+    background: $default-button-color
   &-primary
-    background: $primary-color
+    background: $primary-button-color
   &-secondary
-    background: $secondary-color
+    background: $secondary-button-color
   &-tertiary
-    background: $tertiary-color
+    background: $tertiary-button-color
   &-success
-    background: $success-color
+    background: $success-button-color
   &-danger
-    background: $danger-color
+    background: $danger-button-color
   &-warning
-    background: $warning-color
+    background: $warning-button-color
 
 .disabled
-  background: $disabled-color
+  background: $disabled-button-color
   cursor: default
 
   &:active
