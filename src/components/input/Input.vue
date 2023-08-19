@@ -4,8 +4,12 @@
       v-bind="$attrs"
       v-on="$attrs"
       :value="modelValue"
-      :class="sizeStyle"
-      :disabled="disabled"
+      :class="[
+          colorThemeClass,
+          radiusClass,
+          sizeClass,
+          requiredClass
+      ]"
       @input="onUpdateInputValue($event.target as HTMLInputElement)"
   />
 </template>
@@ -13,6 +17,8 @@
 <script lang="ts" setup>
 import { computed, PropType } from "vue"
 import { Size } from "@/shared/types/Size"
+import {Radius} from "@/shared/types/Radius.ts";
+import {ColorTheme} from "@/shared/types/ColorTheme.ts";
 
 const props = defineProps({
   modelValue: {
@@ -24,7 +30,16 @@ const props = defineProps({
     required: false,
     default: 'small'
   },
-  disabled: {
+  radius: {
+    type: String as PropType<Radius>,
+    required: false,
+    default: 'small'
+  },
+  colorTheme: {
+    type: String as PropType<ColorTheme>,
+    required: false,
+  },
+  required: {
     type: Boolean,
     required: false,
     default: false
@@ -32,7 +47,20 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const sizeStyle = computed<string>(() => `size-${props.size}`)
+const requiredClass = computed<string | null>(
+    () => props.required
+        ? `required`
+        : null
+)
+const sizeClass = computed<string>(
+    () => `size-${props.size}`
+)
+const radiusClass = computed<string>(
+    () => `radius-${props.radius}`
+)
+const colorThemeClass = computed<string>(
+    () => `color-theme-${props.colorTheme}`
+)
 
 const onUpdateInputValue = (event: HTMLInputElement): void => {
   emit('update:modelValue', event.value)
@@ -40,17 +68,45 @@ const onUpdateInputValue = (event: HTMLInputElement): void => {
 </script>
 
 <style lang="sass" scoped>
-@import "Input.vars"
-
 .input
+  position: relative
   max-width: 300px
   width: 100%
   font-family: 'Roboto', sans-serif
-  border: 1px solid $default-input-color
-  border-radius: 10px
+  font-size: 14px
+  border: 1px solid rgba(141, 153, 174, 0.4)
 
   &:focus-visible
     outline: none
+
+.required
+  border: 2px solid $danger-color
+
+.radius
+  &-none
+    border-radius: 0
+  &-small
+    border-radius: 5px
+  &-medium
+    border-radius: 10px
+  &-full
+    border-radius: 15px
+
+.color-theme
+  &-default
+    background: $default-color
+  &-primary
+    background: $primary-color
+  &-secondary
+    background: $secondary-color
+  &-tertiary
+    background: $tertiary-color
+  &-success
+    background: $success-color
+  &-danger
+    background: $danger-color
+  &-warning
+    background: $warning-color
 
 .size
   &-small

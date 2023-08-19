@@ -3,7 +3,12 @@
       class="button"
       v-bind="$attrs"
       v-on="$attrs"
-      :class="[radiusStyle, disabledStyle, sizeStyle, colorThemeStyle]"
+      :class="[
+          radiusClass,
+          disabledClass,
+          sizeClass,
+          colorThemeClass
+      ]"
       :disabled="disabled"
   >
     <slot/>
@@ -12,8 +17,9 @@
 
 <script lang="ts" setup>
 import { computed, PropType } from "vue"
-import { TColorTheme, TRadius } from "./Button.types"
 import { Size } from "@/shared/types/Size"
+import { Radius } from "@/shared/types/Radius"
+import { ColorTheme } from "@/shared/types/ColorTheme"
 
 const props = defineProps({
   size: {
@@ -22,12 +28,12 @@ const props = defineProps({
     default: "small"
   },
   radius: {
-    type: String as PropType<TRadius>,
+    type: String as PropType<Radius>,
     required: false,
     default: 'small'
   },
   colorTheme: {
-    type: String as PropType<TColorTheme>,
+    type: String as PropType<ColorTheme>,
     required: false,
     default: "default"
   },
@@ -38,17 +44,24 @@ const props = defineProps({
   }
 })
 
-const colorThemeStyle = computed<string>(() => `color-theme-${props.colorTheme}`)
-const disabledStyle = computed<string | null>(() => props.disabled ? 'disabled' : null)
-const radiusStyle = computed<string>(() => `radius-${props.radius}`)
-const sizeStyle = computed<string>(() => `size-${props.size}`)
+const colorThemeClass = computed<string>(
+    () => `color-theme-${props.colorTheme}`
+)
+const disabledClass = computed<string | null>(
+    () => props.disabled ? 'disabled' : null
+)
+const radiusClass = computed<string>(
+    () => `radius-${props.radius}`
+)
+const sizeClass = computed<string>(
+    () => `size-${props.size}`
+)
 </script>
 
 <style lang="sass" scoped>
-@import "Button.vars"
-
 .button
   font-family: 'Roboto', sans-serif
+  font-size: 13.5px
   text-align: center
   border: none
   cursor: pointer
@@ -79,22 +92,22 @@ const sizeStyle = computed<string>(() => `size-${props.size}`)
 
 .color-theme
   &-default
-    background: $default-button-color
+    background: $default-color
   &-primary
-    background: $primary-button-color
+    background: $primary-color
   &-secondary
-    background: $secondary-button-color
+    background: $secondary-color
   &-tertiary
-    background: $tertiary-button-color
+    background: $tertiary-color
   &-success
-    background: $success-button-color
+    background: $success-color
   &-danger
-    background: $danger-button-color
+    background: $danger-color
   &-warning
-    background: $warning-button-color
+    background: $warning-color
 
 .disabled
-  background: $disabled-button-color
+  background: $disabled-color
   cursor: default
 
   &:active
