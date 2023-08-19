@@ -1,0 +1,1 @@
+export type Radius = 'none' | 'small' | 'medium' | 'full'

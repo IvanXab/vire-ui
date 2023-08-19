@@ -1,0 +1,1 @@
+export type ColorTheme = 'default' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning'
