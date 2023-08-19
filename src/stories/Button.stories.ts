@@ -24,10 +24,6 @@ const meta = {
           ],
           control: { type: 'radio' },
         },
-        disabled: {
-          options: [true, false],
-          control: { type: 'radio' },
-        },
         colorTheme: {
           options: [
             'default',
