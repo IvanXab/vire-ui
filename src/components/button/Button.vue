@@ -3,30 +3,37 @@
       class="button"
       v-bind="$attrs"
       v-on="$attrs"
-      :class="[radiusStyle, disabledStyle, sizeStyle, colorThemeStyle]"
+      :class="[
+          radiusClass,
+          disabledClass,
+          sizeClass,
+          colorThemeClass
+      ]"
       :disabled="disabled"
   >
     <slot/>
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, PropType } from "vue"
-import {TColorTheme, TRadius, TSize} from "./Button.types";
+import { Size } from "@/shared/types/Size"
+import { Radius } from "@/shared/types/Radius"
+import { ColorTheme } from "@/shared/types/ColorTheme"
 
 const props = defineProps({
   size: {
-    type: String as PropType<TSize>,
+    type: String as PropType<Size>,
     required: false,
     default: "small"
   },
   radius: {
-    type: String as PropType<TRadius>,
+    type: String as PropType<Radius>,
     required: false,
     default: 'small'
   },
   colorTheme: {
-    type: String as PropType<TColorTheme>,
+    type: String as PropType<ColorTheme>,
     required: false,
     default: "default"
   },
@@ -37,17 +44,24 @@ const props = defineProps({
   }
 })
 
-const colorThemeStyle = computed<string>(() => `color-theme-${props.colorTheme}`)
-const disabledStyle = computed<string | null>(() => props.disabled ? 'disabled' : null)
-const radiusStyle = computed<string>(() => `radius-${props.radius}`)
-const sizeStyle = computed<string>(() => `size-${props.size}`)
+const colorThemeClass = computed<string>(
+    () => `color-theme-${props.colorTheme}`
+)
+const disabledClass = computed<string | null>(
+    () => props.disabled ? 'disabled' : null
+)
+const radiusClass = computed<string>(
+    () => `radius-${props.radius}`
+)
+const sizeClass = computed<string>(
+    () => `size-${props.size}`
+)
 </script>
 
-<style scoped lang="sass">
-@import "Button.vars"
-
+<style lang="sass" scoped>
 .button
   font-family: 'Roboto', sans-serif
+  font-size: 13.5px
   text-align: center
   border: none
   cursor: pointer

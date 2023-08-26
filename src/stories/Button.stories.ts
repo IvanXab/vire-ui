@@ -1,20 +1,72 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3'
 
-import Button from "../components/button/Button.vue"
+import Button from '@/components/button/Button.vue'
 
 const meta = {
-    title: 'Base/Button',
-    component: Button,
-    tags: ['autodocs'],
-    args: { size: 'medium', colorTheme: 'primary' },
-} satisfies Meta<typeof Button>;
+  title: 'Base/Button',
+  component: Button,
+  tags: ['autodocs'],
+  argTypes: {
+      size: {
+        options: [
+          'small',
+          'medium',
+          'large'
+        ],
+          control: { type: 'radio' },
+        },
+        radius: {
+          options: [
+            'none',
+            'small',
+            'medium',
+            'full'
+          ],
+          control: { type: 'radio' },
+        },
+        colorTheme: {
+          options: [
+            'default',
+            'primary',
+            'secondary',
+            'tertiary',
+            'success',
+            'danger',
+            'warning'
+          ],
+          control: { type: 'radio' },
+        }
+    },
+} satisfies Meta<typeof Button>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-    render: () => ({
+  render: (args) => {
+     return {
         components: { Button },
-        template: `<Button :color-theme="'secondary'">Click</Button>`,
-    }),
-};
+        setup() {
+          return { args }
+        },
+        template: `
+          <Button 
+            :size="args.size"
+            :radius="args.radius"
+            :color-theme="args.colorTheme"
+            :disabled="args.disabled"
+          >
+            Example
+          </Button>
+        `
+     }
+  },
+  args: {
+    size: 'medium',
+    radius: 'small',
+    colorTheme: 'default',
+    disabled: false
+  }
+}
+
+export default meta;

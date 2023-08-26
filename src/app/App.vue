@@ -1,11 +1,16 @@
 <template>
   <div class="center">
-    <ButtonStand />
+    <Input v-model="data" :size="'small'" placeholder="Enter your name" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ButtonStand from "./stands/ButtonStand.vue";
+import Input from "../components/input/Input.vue"
+import { ref, watch } from "vue"
+
+const data = ref('')
+
+watch(data, () => console.log(data.value))
 </script>
 
 <style lang="sass" scoped>
