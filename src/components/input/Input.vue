@@ -1,17 +1,29 @@
 <template>
-  <input
-      class="input"
-      v-bind="$attrs"
-      v-on="$attrs"
-      :value="modelValue"
-      :class="[
-          colorThemeClass,
-          radiusClass,
-          sizeClass,
-          requiredClass
-      ]"
-      @input="onUpdateInputValue($event.target as HTMLInputElement)"
-  />
+  <div class="input-wrapper"
+     :class="[
+        colorThemeClass,
+        radiusClass,
+        sizeClass,
+        requiredClass
+     ]"
+  >
+    <p v-if="title && !required" class="title">
+      {{ title }}
+    </p>
+    <p v-else-if="title && required" class="title">
+      {{ title }} <span style="color: #c81d25">*</span>
+    </p>
+    <input
+        class="input"
+        v-bind="$attrs"
+        v-on="$attrs"
+        :value="modelValue"
+        @input="onUpdateInputValue($event.target as HTMLInputElement)"
+    />
+  </div>
+  <div v-if="!validation" class="validation-message">
+    {{ validationMessage }}
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -43,8 +55,22 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  title: {
+    type: String,
+    required: false
+  },
+  validation: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
+  validationMessage: {
+    type: String,
+    required: false,
   }
 })
+
 const emit = defineEmits(['update:modelValue'])
 
 const requiredClass = computed<string | null>(
@@ -72,15 +98,32 @@ const onUpdateInputValue = (event: HTMLInputElement): void => {
   position: relative
   max-width: 300px
   width: 100%
-  font-family: 'Roboto', sans-serif
-  font-size: 14px
-  border: 1px solid rgba(141, 153, 174, 0.4)
+  font-size: 13px
+
+  &-wrapper
+    display: flex
+    flex-direction: column
+    gap: 6px
+    max-width: 300px
+    width: 100%
+    font-family: 'Roboto', sans-serif
+    border: 1px solid rgba(141, 153, 174, 0.4)
 
   &:focus-visible
     outline: none
 
+.title
+  color: #575a62
+  font-size: 12px
+
 .required
   border: 2px solid $danger-color
+
+.validation-message
+  padding: 3px 10px
+  font-family: 'Roboto', sans-serif
+  font-size: 10px
+  color: $danger-color
 
 .radius
   &-none
@@ -92,27 +135,47 @@ const onUpdateInputValue = (event: HTMLInputElement): void => {
   &-full
     border-radius: 15px
 
-.color-theme
-  &-default
-    background: $default-color
-  &-primary
-    background: $primary-color
-  &-secondary
-    background: $secondary-color
-  &-tertiary
-    background: $tertiary-color
-  &-success
-    background: $success-color
-  &-danger
-    background: $danger-color
-  &-warning
-    background: $warning-color
-
 .size
   &-small
-    padding: 10px 10px
+    padding: 6px 10px
   &-medium
     padding: 15px 10px
   &-large
     padding: 20px 10px
+
+.color-theme
+  &-default
+    background: $default-color
+    .input
+      background: $default-color
+
+  &-primary
+    background: $primary-color
+    .input
+      background: $primary-color
+
+  &-secondary
+    background: $secondary-color
+    .input
+      background: $secondary-color
+
+  &-tertiary
+    background: $tertiary-color
+    .input
+      background: $tertiary-color
+
+  &-success
+    background: $success-color
+    .input
+      background: $success-color
+
+  &-danger
+    background: $danger-color
+    .input
+      background: $default-color
+
+  &-warning
+    background: $warning-color
+    .input
+      background: $warning-color
 </style>

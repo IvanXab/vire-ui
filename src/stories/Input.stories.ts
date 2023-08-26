@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import Input from "@/components/input/Input.vue"
-import Button from "@/components/button/Button.vue";
 
 const meta = {
     title: 'Base/Input',
@@ -37,7 +36,7 @@ const meta = {
                 'warning'
             ],
             control: { type: 'radio' },
-        }
+        },
     },
 } satisfies Meta<typeof Input>
 
@@ -52,21 +51,27 @@ export const Default: Story = {
               return { args }
           },
           template: `
-           <Input
+           <Input 
             v-model="args.modelValue" 
             :size="args.size"
             :radius="args.radius"
             :color-theme="args.colorTheme"
             :required="args.required"
-            placeholder="Enter your name"
+            :title="args.title"
+            :validation="args.validation"
+            :validation-message="args.validationMessage"
+            placeholder="Enter your text"
           />`
         }
     },
     args: {
         modelValue: '',
+        title: '',
+        validationMessage: '',
         size: 'medium',
         radius: 'small',
         colorTheme: undefined,
-        required: false
+        required: false,
+        validation: true
     }
 }
